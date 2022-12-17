@@ -16,7 +16,7 @@
     </div>
     <h2>List of Messages</h2>
     <form method="get" action="/main">
-        <input type="text" name="filter" value="${filter}">
+        <input type="text" name="filter" value="${filter!}">
         <button type="submit">Find</button>
     </form>
     <#list messages as message>
