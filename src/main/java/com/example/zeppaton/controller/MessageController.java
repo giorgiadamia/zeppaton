@@ -14,14 +14,16 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Map;
+import java.util.UUID;
 
 @Controller
 public class MessageController {
     @Autowired
     private MessageRepo messageRepo;
 
-    @Value("${upload.path}")
+    @Value("${upload.path}") // get name from app properties
     private String uploadPath;
 
     @GetMapping("/")
@@ -50,16 +52,21 @@ public class MessageController {
             @AuthenticationPrincipal User user,
             @RequestParam String text,
             @RequestParam String tag, Map<String, Object> model,
-            @RequestParam("file") MultipartFile multipartFile) {
+            @RequestParam("file") MultipartFile multipartFile) throws IOException {
         Message message = new Message(text, tag, user);
-        if (multipartFile != null) {
+        if (multipartFile != null && !multipartFile.getOriginalFilename().isEmpty()) {
             File uploadDir = new File(uploadPath);
 
             if (!uploadDir.exists()) {
                 uploadDir.mkdir();
             }
 
-//            message.setFilename();
+            String uuidFile = UUID.randomUUID().toString(); // unique filename
+            String resultFilename = uuidFile + "." + multipartFile.getOriginalFilename();
+
+            multipartFile.transferTo(new File(uploadPath + "\\" + resultFilename));
+
+            message.setFilename(resultFilename);
         }
         messageRepo.save(message);
         Iterable<Message> messages = messageRepo.findAll();
