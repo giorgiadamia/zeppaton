@@ -64,7 +64,7 @@ public class MessageController {
             String uuidFile = UUID.randomUUID().toString(); // unique filename
             String resultFilename = uuidFile + "." + multipartFile.getOriginalFilename();
 
-            multipartFile.transferTo(new File(uploadPath + "\\" + resultFilename));
+            multipartFile.transferTo(new File(uploadPath + "\\" + resultFilename)); // upload file
 
             message.setFilename(resultFilename);
         }
