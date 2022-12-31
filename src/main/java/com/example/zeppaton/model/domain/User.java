@@ -22,8 +22,8 @@ public class User implements UserDetails {
     @NotBlank(message = "Password cant be empty")
     private String password;
 
-//    @NotBlank(message = "Password cant be empty")
-    @Transient
+    @NotBlank(message = "Password verification cant be empty")
+    @Transient // did not create field in database
     private String password2;
 
     private Boolean active;
