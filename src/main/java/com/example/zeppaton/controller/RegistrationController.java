@@ -37,8 +37,9 @@ public class RegistrationController {
             model.addAttribute("password2Error", "Password confirmation cant be null");
         }
 
-        if (user.getPassword() != null && !user.getPassword().equals(passwordConfirm)) {
+        if (user.getPassword() != null &&  passwordConfirm != null && !user.getPassword().equals(passwordConfirm)) {
             model.addAttribute("passwordError", "Passwords are different");
+            return "registration";
         }
 
         if (isConfirmEmpty || bindingResult.hasErrors()) {
