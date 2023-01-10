@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -23,12 +22,12 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .authorizeRequests()
+                .authorizeRequests() // authorization turn on !
                     .antMatchers("/", "/registration", "/static/**", "/activate/*").permitAll() // without auth
-                    .anyRequest().authenticated()
+                    .anyRequest().authenticated() // for other requests needs authorize
                 .and()
-                    .formLogin()
-                    .loginPage("/login")
+                    .formLogin() // turn on form login
+                    .loginPage("/login") // login mapping
                     .permitAll()
                 .and()
                     .rememberMe()
